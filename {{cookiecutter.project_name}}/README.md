@@ -61,4 +61,4 @@ Moreover, although in `ci.yml` and `cd.yml` you will find the python version tha
 
 ### Badges
 
-You must fix in README.md the badge url with the right repository name for properly working the GitHub badges.
+You must fix in `README.md` the badge url with the right repository name for properly working the GitHub badges.
