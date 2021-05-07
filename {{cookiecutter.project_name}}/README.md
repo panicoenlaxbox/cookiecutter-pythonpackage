@@ -57,6 +57,8 @@ You must set the following secrets in the repository:
 
 If you want, both can be the same PAT.
 
+Moreover, although in `ci.yml` and `cd.yml` you will find the python version that you specified during the bootstraping, you should check this version and align it with the existing versions in https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
+
 ### Badges
 
 You must fix in README.md the badge url with the right repository name for properly working the GitHub badges.
