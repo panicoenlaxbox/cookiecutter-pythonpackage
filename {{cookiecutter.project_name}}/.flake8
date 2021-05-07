@@ -1,0 +1,6 @@
+[flake8]
+max-line-length = 120
+# https://www.flake8rules.com/rules/E501.html
+ignore = E501
+use_class_attributes_order_strict_mode = True
+exclude = build
