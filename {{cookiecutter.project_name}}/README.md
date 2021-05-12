@@ -24,7 +24,11 @@ python -m main
 pytest
 ```
 
-## AZURE_DEVOPS_PAT
+# setup.py
+
+Talking about dependencies, you can choose different approaches, if `setup.py` find a `requirements.txt`, it will use it for pinning dependencies, otherwise it will use `Pipfile` only for pinning your direct dependencies.
+
+# AZURE_DEVOPS_PAT
 
 This environment variable is used by Pipenv to download packages from a private feed.
 
@@ -32,23 +36,23 @@ During the project generation, it's written in `.env` file that it's excluded fr
 
 If you want to change the default location of `.env` file, you can use [PIPENV_DOTENV_LOCATION](https://pipenv.pypa.io/en/latest/advanced/#pipenv.environments.PIPENV_DOTENV_LOCATION)
 
-## PyCharm
+# PyCharm
 
 When you open PyCharm, in addition to selecting the interpreter created previously in a global manner, you must select it for each Run/Debug configuration.
 
 For pytest, you must go to Settings > Tools > Python Integrated Tools and select pytest like default test runner.
 
-### Environment variables
+## Environment variables
 
 PyCharm/pipenv have a bug and `.env` files are not loaded in Terminal [Terminal not loading environmental variables with PIPENV](https://intellij-support.jetbrains.com/hc/en-us/community/posts/360001761299-Terminal-not-loading-environmental-variables-with-PIPENV), so you should execute `pipenv shell` in PyCharm Terminal every time you open it.
 
-### Run/Debug configuration
+## Run/Debug configuration
 
 For using `.env` file with a PyCharm Run/Debug configuration, you should install [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) plugin and choose the `.env` file in a proper way.
 
-## GitHub Action
+# GitHub Action
 
-### Secrets
+## Secrets
 
 You must set the following secrets in the repository:
 
@@ -59,6 +63,6 @@ If you want, both can be the same PAT.
 
 Moreover, although in `ci.yml` and `cd.yml` you will find the python version that you specified during the bootstraping, you should check this version and align it with the existing versions in https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
 
-### Badges
+## Badges
 
 You must fix in `README.md` the badge url with the right repository name for properly working the GitHub badges.
