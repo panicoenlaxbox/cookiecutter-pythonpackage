@@ -26,5 +26,8 @@ flake8-tidy-imports = "*"
 [requires]
 python_version = "{{cookiecutter.python_version}}"
 
+[scripts]
+publish = "python setup.py clean --all bdist_wheel"
+
 [pipenv]
 allow_prereleases = true
