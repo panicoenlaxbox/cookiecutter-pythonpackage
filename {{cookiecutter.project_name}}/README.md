@@ -26,7 +26,9 @@ pytest
 
 # setup.py
 
-Talking about dependencies, you can choose different approaches, if `setup.py` find a `requirements.txt`, it will use it for pinning dependencies, otherwise it will use `Pipfile` only for pinning your direct dependencies.
+You can choose different approaches, if `setup.py` find a `requirements.txt`, it will use it for pinning dependencies, otherwise it will use `Pipfile` only for pinning your direct dependencies.
+
+If you use `publish.ps1`, `requirements.txt` will be created prior to run `pipenv run publish` script command.
 
 # AZURE_DEVOPS_PAT
 
