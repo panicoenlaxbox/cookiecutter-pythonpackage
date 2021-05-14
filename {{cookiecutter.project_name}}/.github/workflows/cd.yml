@@ -51,8 +51,8 @@ jobs:
       shell: pwsh
     - name: Publish
       run: |
-        pipenv lock -r > requirements.txt
-        pipenv run publish
+        .\publish.ps1
+      shell: pwsh
     # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-output-parameter
     - name: Get wheel version
       id: version
