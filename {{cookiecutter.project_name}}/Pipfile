@@ -28,6 +28,3 @@ python_version = "{{cookiecutter.python_version}}"
 
 [pipenv]
 allow_prereleases = true
-
-[scripts]
-publish = "python setup.py clean --all bdist_wheel"
