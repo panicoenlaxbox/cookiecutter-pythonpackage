@@ -1,2 +1,2 @@
-pipenv lock -r > requirements.txt
+pipenv lock -r --no-header > requirements.txt
 pipenv run publish
