@@ -364,3 +364,4 @@ spark-warehouse/
 
 # https://pipenv.pypa.io/en/latest/advanced/#automatic-loading-of-env
 .env
+requeriments.txt
