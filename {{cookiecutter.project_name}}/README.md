@@ -28,7 +28,7 @@ pytest
 
 You can choose different approaches, if `setup.py` find a `requirements.txt`, it will use it for pinning dependencies, otherwise it will use `Pipfile` only for pinning your direct dependencies.
 
-If you use `publish.ps1`, `requirements.txt` will be created prior to run `pipenv run publish` script command.
+If you use `publish.ps1`, `requirements.txt` will be created prior to run `pipenv run publish` script command. Futhermore, `requirements.txt` is excluded in `.gitignore` because it will can contain the token supplied during the project generation (`pipenv lock -r > requirements.txt` will be dump it).
 
 # AZURE_DEVOPS_PAT
 
