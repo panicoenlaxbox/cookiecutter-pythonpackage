@@ -38,13 +38,16 @@ def get_install_requires():
 
 long_description = get_long_description()
 install_requires = get_install_requires()
+packages = find_packages(
+    exclude=["tests", "tests.*"]
+)  # https://setuptools.readthedocs.io/en/latest/userguide/package_discovery.html#using-find-or-find-
 
 setup(
     name="{{cookiecutter.package_name}}",
     version=get_version(),
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=find_packages(),
+    packages=packages,
     install_requires=install_requires,
     include_package_data=True,  # https://setuptools.readthedocs.io/en/latest/userguide/datafiles.html
     package_data={"": ["*.json"]},

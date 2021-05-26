@@ -364,4 +364,7 @@ spark-warehouse/
 
 # https://pipenv.pypa.io/en/latest/advanced/#automatic-loading-of-env
 .env
+tmp/
+temp/
+/coverage_html_report/
 requirements.txt
