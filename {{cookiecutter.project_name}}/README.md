@@ -72,3 +72,33 @@ Moreover, although in `ci.yml` and `cd.yml` you will find the python version tha
 ## Badges
 
 You must fix the badge url in `README.md` with the right repository name for properly displaying.
+
+# Project structure
+
+- `.github\`
+- `{{cookiecutter.project_name}}\`
+- `tests\`
+- `.coveragerc`
+    - https://github.com/nedbat/coveragepy
+- `.editorconfig`
+    - https://editorconfig.org/
+- `.env`
+    - https://pipenv-fork.readthedocs.io/en/latest/advanced.html#automatic-loading-of-env
+- `.flake8`
+    - https://flake8.pycqa.org/en/latest/user/configuration.html
+- `.gitignore`
+- `.pre-commit-config.yaml`
+    - https://pre-commit.com/#adding-pre-commit-plugins-to-your-project
+- `mypy.ini`
+    - https://mypy.readthedocs.io/en/stable/config_file.html
+- `Pipfile`
+    - https://pipenv.pypa.io/en/latest/
+- `publish.ps1`
+    - PowerShell script for publishing a package
+- `pyproject.toml`
+    - https://www.python.org/dev/peps/pep-0518/
+- `pytest.ini`
+    - https://docs.pytest.org/en/6.2.x/customize.html#pytest-ini
+- `README.md`
+- `setup.py`
+    - https://setuptools.readthedocs.io/en/latest/index.html
