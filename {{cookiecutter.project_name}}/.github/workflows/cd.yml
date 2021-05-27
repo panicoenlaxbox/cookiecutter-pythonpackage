@@ -43,6 +43,9 @@ jobs:
     - name: mypy
       run: |
         pipenv run mypy .
+    - name: tests
+      run: |
+        pipenv run test
     # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
     - name: Version suffix
       if: github.ref == 'refs/heads/develop'
