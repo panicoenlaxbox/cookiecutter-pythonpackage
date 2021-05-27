@@ -29,8 +29,8 @@ python_version = "{{cookiecutter.python_version}}"
 
 [scripts]
 publish = "python setup.py clean --all bdist_wheel"
-test = "pytest"	
-cov = "pytest --cov --cov-report=html"
+test = "pytest -v"	
+cov = "pytest -v --cov --cov-report=html"
 
 [pipenv]
 allow_prereleases = true
