@@ -40,3 +40,6 @@ jobs:
     - name: mypy
       run: |
         pipenv run mypy .
+    - name: tests
+      run: |
+        pipenv run test
