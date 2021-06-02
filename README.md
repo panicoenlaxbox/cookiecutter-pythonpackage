@@ -86,7 +86,7 @@ If `setup.py` finds a `requirements.txt`, it will use it for pinning dependencie
 
 If you use `publish.ps1`, `requirements.txt` will be created prior to run `pipenv run publish` script command. Futhermore, `requirements.txt` is excluded in `.gitignore` because it could contain the token supplied during the project generation, `pipenv lock -r > requirements.txt` will be dump it in the file header.
 
-`publish.ps1` is used in the GitHub Action because I assume that you are developing an application, but if it isn't your case and you want to distribute a package for third parties, may be you shouldn't pin your dependencies and left them opened for easily integration with the consumer application. In this case, feel free to change the call to `publish.ps1` in [cd.yml]({{cookiecutter.project_name}}/.github/cd.yml) for a single call to `pipenv run publish`.
+`publish.ps1` is used in the GitHub Action because I assume that you are developing an application, but if it isn't your case and you want to distribute a package for third parties, may be you shouldn't pin your dependencies and left them opened for easily integration with the consumer application. In this case, feel free to change the call to `publish.ps1` in [cd.yml]({{cookiecutter.project_name}}/.github/workflows/cd.yml) for a single call to `pipenv run publish`.
 
 ## AZURE_DEVOPS_PAT
 
