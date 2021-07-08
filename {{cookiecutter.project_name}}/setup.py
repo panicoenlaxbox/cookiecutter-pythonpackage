@@ -5,16 +5,25 @@ import toml
 from setuptools import find_packages, setup
 
 
+def get_name():
+    name = "{{cookiecutter.project_name}}"
+    {%- if cookiecutter.packaging_strategy == 'branch' %}
+    if os.environ.get("PACKAGE_SUFFIX") is not None:
+        name = f"{name}-{os.environ['PACKAGE_SUFFIX']}"
+    {%- endif %}
+    return name
+
+
 def get_version():
     pattern = r"VERSION\s*=\s*\((?P<version>\d+,\s*\d+,\s*\d+)\)"
     with open(os.path.join("{{cookiecutter.project_name}}", "version.py")) as f:
         content = f.read()
         match = re.search(pattern, content, re.RegexFlag.IGNORECASE | re.RegexFlag.MULTILINE)
         version = match["version"].replace(",", ".").replace(" ", "")
-
+    {%- if cookiecutter.packaging_strategy == '440' %}
     if os.environ.get("VERSION_SUFFIX") is not None:
         version += f"{version}.{os.environ['VERSION_SUFFIX']}"
-
+    {%- endif %}
     return version
 
 
@@ -43,7 +52,7 @@ packages = find_packages(
 )  # https://setuptools.readthedocs.io/en/latest/userguide/package_discovery.html#using-find-or-find-
 
 setup(
-    name="{{cookiecutter.package_name}}",
+    name=get_name(),
     version=get_version(),
     long_description=long_description,
     long_description_content_type="text/markdown",

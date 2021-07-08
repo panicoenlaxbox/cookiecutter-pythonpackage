@@ -19,10 +19,18 @@ cookiecutter https://github.com/panicoenlaxbox/cookiecutter-pythonpackage
 | project_name | A lowercase or snake_case name, e.g. my_project |
 | package_name | A lowercase or hyphen-case name, e.g. my-package |
 | python_version | Python version in the format X.Y |
+| packaging_strategy | branch or 440 |
 | azure_devops_organization_name | Azure DevOps Organization name |
 | azure_devops_team_project_name | Azure DevOps Team Project name |
 | azure_devops_feed_name | Azure DevOps Feed name |
 | azure_devops_pat | Azure DevOps PAT |
+
+### packaging_strategy
+
+For branches other that main:
+
+- `branch` will build packages with the name `package_name`-`<branch>`. In practice, different packages.
+- `440` will build packages with the name `package_name.dev`, according to https://www.python.org/dev/peps/pep-0440/. The same package in pre-release version.
 
 # Project structure
 

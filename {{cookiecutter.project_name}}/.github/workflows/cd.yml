@@ -9,12 +9,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    {%- if cookiecutter.packaging_strategy == '440' %}
     - uses: actions/github-script@v3.1.0
       if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop'
       with:
         script: |
             branch = process.env.GITHUB_REF.split("/").slice(-1)[0]
             core.setFailed(`${branch} is not allowed`)
+    {%- endif %}
     - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -48,10 +50,20 @@ jobs:
         pipenv run test
     # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
     - name: Version suffix
+    {%- if cookiecutter.packaging_strategy == '440' %}    
       if: github.ref == 'refs/heads/develop'
       run: |
         echo "VERSION_SUFFIX=dev" >> $env:GITHUB_ENV
       shell: pwsh
+    {%- else %}
+      if: github.ref != 'refs/heads/main'
+      run: |
+        {%- raw %}
+        $branch = "${{ github.ref }}"
+        {%- endraw %}
+        $suffix = $branch.Substring($branch.LastIndexOf("/") + 1)
+        echo "PACKAGE_SUFFIX=$suffix" >> $env:GITHUB_ENV
+    {%- endif %}
     - name: Publish
       run: |
         .\publish.ps1
@@ -60,7 +72,7 @@ jobs:
     - name: Get wheel version
       id: version
       run: |
-        $name = Get-ChildItem .\dist\ -Filter *.whl | Sort-Object LastWriteTime -Descending | Select-Object -ExpandProperty Name
+        $name = Get-ChildItem .\dist\ -Filter *.whl | Sort-Object LastWriteTime -Descending | Select-Object -ExpandProperty Name -First 1
         $name = $name.Substring("{{cookiecutter.project_name}}-".Length)
         $wheelVersion = $name.Substring(0, $name.IndexOf("-py3"))
         echo "::set-output name=wheel_version::$wheelVersion"
