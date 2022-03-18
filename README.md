@@ -2,14 +2,13 @@
 
 A [cookiecutter](https://github.com/cookiecutter/cookiecutter) template for a python package.
 
+Optionally, you can add everything you need to work with [pyspark](https://spark.apache.org/docs/latest/api/python/) and even GitHub worfklows for a continuous integration and deployment environment, for publishing the package in a private [Azure DevOps feed](https://docs.microsoft.com/en-us/azure/devops/artifacts/concepts/feeds?view=azure-devops).
+
 # Usage
 
 ```bash
-
 pip install cookiecutter
-
 cookiecutter https://github.com/panicoenlaxbox/cookiecutter-pythonpackage
-
 ```
 
 ## Parameters
@@ -20,17 +19,32 @@ cookiecutter https://github.com/panicoenlaxbox/cookiecutter-pythonpackage
 | package_name | A lowercase or hyphen-case name, e.g. my-package |
 | python_version | Python version in the format X.Y |
 | packaging_strategy | branch or 440 |
+| pyspark_version | https://pypi.org/project/pyspark/ |
+| hadoop_home | `%HADOOP_HOME%` environment variable |
+| hadoop_version | https://github.com/vemonet/setup-spark |
+| spark_home | `%SPARK_HOME%` environment variable |
+| pyspark_python | `%PYSPARK_PYTHON%` environment variable |   
 | azure_devops_organization_name | Azure DevOps Organization name |
 | azure_devops_team_project_name | Azure DevOps Team Project name |
 | azure_devops_feed_name | Azure DevOps Feed name |
 | azure_devops_pat | Azure DevOps PAT |
 
-### packaging_strategy
+![](hooks/cookie_cutter.png)
+
+### Packaging strategy
 
 For branches other that main:
 
-- `branch` will build packages with the name `package_name`-`<branch>`. In practice, different packages.
-- `440` will build packages with the name `package_name.dev`, according to https://www.python.org/dev/peps/pep-0440/. The same package in pre-release version.
+- `branch` will build packages with the name `package_name`-`<branch>`.
+    - *In practice, different packages.*
+- `440` will build packages with the name `package_name.dev`, according to https://www.python.org/dev/peps/pep-0440/. 
+    - *The same package in pre-release version.*
+
+### pyspark
+
+This project is very influenced by the way of installing pyspark that is explained in this post https://www.panicoenlaxbox.com/post/install-spark-on-windows/
+
+If you don't want to include `pyspark`, leave blank the field `pyspark_version`, `hadoop_home`, `hadoop_version`, `spark_home` and `pyspark_python`.
 
 # Project structure
 
@@ -67,16 +81,19 @@ For branches other that main:
 ## Installation
 
 ```bash
-pipenv shell
-pipenv install --dev
+pipenv install --dev  # Install packages in development mode
 git init
-pre-commit install
+pipenv shell  # Activate the virtual environment
+pre-commit install  # Install pre-commit hooks
+pre-commit autoupdate  # Because pre-commit rev could have changed
+git add .
+git commit -m "Initial commit"
 ```
 
 ## Usage
 
 ```bash
-python -m main
+python `.\<project_name>\main.py`
 pytest
 ```
 
@@ -88,11 +105,13 @@ pipenv run publish
 
 ## Deploying
 
-You can choose different approaches for publishing the package.
+Regardless of what was chosen in the field `packaging_strategy`, you can choose different approaches for publishing the package in relation to the dependencies.
 
 If `setup.py` finds a `requirements.txt`, it will use it for pinning dependencies, otherwise it will use `Pipfile` only will take care about your direct dependencies.
 
 If you use `publish.ps1`, `requirements.txt` will be created prior to run `pipenv run publish` script command. Futhermore, `requirements.txt` is excluded in `.gitignore` because it could contain the token supplied during the project generation, `pipenv lock -r > requirements.txt` will be dump it in the file header.
+
+In both cases, you can skip specific packages to be included in the final package, editing the `setup.py` file and variable `excluded_packages`.
 
 `publish.ps1` is used in the GitHub Action because I assume that you are developing an application, but if it isn't your case and you want to distribute a package for third parties, may be you shouldn't pin your dependencies and left them opened for easily integration with the consumer application. In this case, feel free to change the call to `publish.ps1` in [cd.yml]({{cookiecutter.project_name}}/.github/workflows/cd.yml) for a single call to `pipenv run publish`.
 
@@ -100,7 +119,7 @@ If you use `publish.ps1`, `requirements.txt` will be created prior to run `pipen
 
 This environment variable is used by Pipenv to download packages from a private feed.
 
-During the project generation, it's written in `.env` file that it's excluded from source control in `.gitignore` file.
+During the project generation and, if you choose to create the pipelines, it's written in `.env` file that it's excluded from source control in `.gitignore` file.
 
 If you want to change the default location of `.env` file, you can use [PIPENV_DOTENV_LOCATION](https://pipenv.pypa.io/en/latest/advanced/#pipenv.environments.PIPENV_DOTENV_LOCATION)
 
@@ -116,9 +135,9 @@ PyCharm/pipenv have a bug and `.env` files are not loaded in Terminal [Terminal 
 
 ### Run/Debug configuration
 
-For using `.env` file with a PyCharm Run/Debug configuration, you should install [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) plugin and choose the `.env` file in a proper way.
+For using `.env` file with a PyCharm Run/Debug configuration, you should install [EnvFile](https://plugins.jetbrains.com/plugin/7861-envfile) plugin and choose the `.env` file to be loaded.
 
-## GitHub Action
+## GitHub
 
 ### Secrets
 

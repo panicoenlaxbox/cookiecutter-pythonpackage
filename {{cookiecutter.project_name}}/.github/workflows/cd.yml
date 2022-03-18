@@ -10,16 +10,16 @@ jobs:
 
     steps:
     {%- if cookiecutter.packaging_strategy == '440' %}
-    - uses: actions/github-script@v3.1.0
+    - uses: actions/github-script@v6
       if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop'
       with:
         script: |
             branch = process.env.GITHUB_REF.split("/").slice(-1)[0]
             core.setFailed(`${branch} is not allowed`)
     {%- endif %}
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: '{{cookiecutter.python_version}}' # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
     # https://pipenv-fork.readthedocs.io/en/latest/advanced.html#using-pipenv-for-deployments
@@ -45,6 +45,16 @@ jobs:
     - name: mypy
       run: |
         pipenv run mypy .
+    {%- if cookiecutter.pyspark_version %}    
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+    - uses: vemonet/setup-spark@v1
+      with:
+        spark-version: '{{cookiecutter.pyspark_version}}'
+        hadoop-version: '{{cookiecutter.hadoop_version}}'
+    {%- endif %}        
     - name: tests
       run: |
         pipenv run test
@@ -78,7 +88,7 @@ jobs:
         echo "::set-output name=wheel_version::$wheelVersion"
       shell: pwsh
     # - name: Upload a Build Artifact
-    #   uses: actions/upload-artifact@v2.2.2
+    #   uses: actions/upload-artifact@v3
     #   with:
     #     path: dist
     - name: Upload package
@@ -90,7 +100,7 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         {%- endraw %}
     - name: Version tag
-      uses: actions/github-script@v3.1.0
+      uses: actions/github-script@v6
       with:
         script: |
           github.git.createRef({

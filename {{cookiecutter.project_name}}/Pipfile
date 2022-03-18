@@ -2,15 +2,22 @@
 url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
-
+{% if cookiecutter.azure_devops_pat %}
 [[source]]
 url = "https://n_a:$AZURE_DEVOPS_PAT@pkgs.dev.azure.com/{{cookiecutter.azure_devops_organization_name}}/{{cookiecutter.azure_devops_team_project_name}}/_packaging/{{cookiecutter.azure_devops_feed_name}}/pypi/simple"
 verify_ssl = true
 name = "{{cookiecutter.azure_devops_feed_name}}"
-
+{% endif %}
 [packages]
+{%- if cookiecutter.pyspark_version %}
+pyspark = "=={{cookiecutter.pyspark_version}}"
+{%- endif %}
 
 [dev-packages]
+{%- if cookiecutter.pyspark_version %}
+pyspark-stubs = "==3.0.0.post3"
+chispa = "*"
+{%- endif %}
 pytest = "*"
 flake8 = "*"
 pep8-naming = "*"
@@ -23,6 +30,7 @@ isort = "*"
 black = "*"
 flake8-tidy-imports = "*"
 pytest-cov = "*"
+assertpy = "*"
 
 [requires]
 python_version = "{{cookiecutter.python_version}}"

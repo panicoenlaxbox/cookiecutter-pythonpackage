@@ -1,5 +1,6 @@
 import os
 import re
+from pathlib import Path
 
 import toml
 from setuptools import find_packages, setup
@@ -33,16 +34,40 @@ def get_long_description():
 
 
 def get_install_requires():
+    excluded_packages = []
     if os.path.isfile("requirements.txt"):
-        pattern = r"(.+==.+?)(;{1}|\s)"
-        with open("requirements.txt") as f:
-            content = f.read()
-            return [
-                match[0] for match in re.findall(pattern, content, re.RegexFlag.IGNORECASE | re.RegexFlag.MULTILINE)
-            ]
+        print("Using requirements.txt")
+        packages = [
+            match[0]
+            for match in re.findall(
+                r"(.+==.+?)(;{1}|\s)",
+                Path("requirements.txt").read_text(),
+                re.RegexFlag.IGNORECASE | re.RegexFlag.MULTILINE,
+            )
+        ]
+        print(f"{len(packages)} packages found {packages}")
+        final_packages = []
+        for package in packages:
+            append = True
+            for excluded_package in excluded_packages:
+                if package.startswith(f"{excluded_package}=="):
+                    append = False
+                    break
+            if append:
+                final_packages.append(package)
+        print(f"{len(final_packages)} final packages {final_packages}")
+        return final_packages
     else:
+        print("Using Pipfile")
         data = toml.load("Pipfile")
-        return [package + (version if version != "*" else "") for package, version in data["packages"].items()]
+        print(f'{len(data["packages"].items())} packages found {data["packages"].items()}')
+        final_packages = [
+            package + (version if version != "*" else "")
+            for package, version in data["packages"].items()
+            if package not in excluded_packages
+        ]
+        print(f"{len(final_packages)} final packages {final_packages}")
+        return final_packages
 
 
 long_description = get_long_description()

@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: '{{cookiecutter.python_version}}' # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
     - name: Install dependencies
@@ -40,6 +40,16 @@ jobs:
     - name: mypy
       run: |
         pipenv run mypy .
+    {%- if cookiecutter.pyspark_version %}    
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+    - uses: vemonet/setup-spark@v1
+      with:
+        spark-version: '{{cookiecutter.pyspark_version}}'
+        hadoop-version: '{{cookiecutter.hadoop_version}}'
+    {%- endif %}
     - name: tests
       run: |
         pipenv run test
