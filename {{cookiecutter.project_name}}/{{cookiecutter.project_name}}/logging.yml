@@ -1,0 +1,18 @@
+version: 1
+formatters:
+    simple:
+        format: "%(name)s - %(levelname)s - %(message)s"
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: simple
+        stream: ext://sys.stdout
+    file:
+        class: logging.handlers.RotatingFileHandler
+        level: DEBUG
+        formatter: simple
+        filename: {{cookiecutter.project_name}}.log
+root:
+    level: DEBUG
+    handlers: [ console, file ]

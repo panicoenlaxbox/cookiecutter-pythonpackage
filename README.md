@@ -93,7 +93,7 @@ git commit -m "Initial commit"
 ## Usage
 
 ```bash
-python `.\<project_name>\main.py`
+python -m <project_name>.main
 pytest
 ```
 
