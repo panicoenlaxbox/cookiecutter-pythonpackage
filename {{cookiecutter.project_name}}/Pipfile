@@ -9,7 +9,9 @@ verify_ssl = true
 name = "{{cookiecutter.azure_devops_feed_name}}"
 {% endif %}
 [packages]
+{%- if cookiecutter.dependency_injector == "y" %}
 dependency-injector = {extras = ["yaml"], version = "*"}
+{%- endif %}
 {%- if cookiecutter.pyspark_version %}
 pyspark = "=={{cookiecutter.pyspark_version}}"
 {%- endif %}
@@ -32,7 +34,9 @@ black = "*"
 flake8-tidy-imports = "*"
 pytest-cov = "*"
 assertpy = "*"
+{%- if cookiecutter.dependency_injector == "y" %}
 types-pyyaml = "*"
+{%- endif %}
 
 [requires]
 python_version = "{{cookiecutter.python_version}}"

@@ -8,7 +8,7 @@ from setuptools import find_packages, setup
 
 def get_name():
     name = "{{cookiecutter.project_name}}"
-    {%- if cookiecutter.packaging_strategy == 'branch' %}
+    {%- if cookiecutter.packaging_strategy == "branch" %}
     if os.environ.get("PACKAGE_SUFFIX") is not None:
         name = f"{name}-{os.environ['PACKAGE_SUFFIX']}"
     {%- endif %}
@@ -21,7 +21,7 @@ def get_version():
         content = f.read()
         match = re.search(pattern, content, re.RegexFlag.IGNORECASE | re.RegexFlag.MULTILINE)
         version = match["version"].replace(",", ".").replace(" ", "")
-    {%- if cookiecutter.packaging_strategy == '440' %}
+    {%- if cookiecutter.packaging_strategy == "pep440" %}
     if os.environ.get("VERSION_SUFFIX") is not None:
         version += f"{version}.{os.environ['VERSION_SUFFIX']}"
     {%- endif %}

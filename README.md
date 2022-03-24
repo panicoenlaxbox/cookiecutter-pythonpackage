@@ -18,7 +18,8 @@ cookiecutter https://github.com/panicoenlaxbox/cookiecutter-pythonpackage
 | project_name | A lowercase or snake_case name, e.g. my_project |
 | package_name | A lowercase or hyphen-case name, e.g. my-package |
 | python_version | Python version in the format X.Y |
-| packaging_strategy | branch or 440 |
+| packaging_strategy | branch or PEP 440 |
+| dependency_injector | https://python-dependency-injector.ets-labs.org/ |
 | pyspark_version | https://pypi.org/project/pyspark/ |
 | hadoop_home | `%HADOOP_HOME%` environment variable |
 | hadoop_version | https://github.com/vemonet/setup-spark |

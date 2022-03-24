@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    {%- if cookiecutter.packaging_strategy == '440' %}
+    {%- if cookiecutter.packaging_strategy == "pep440" %}
     - uses: actions/github-script@v6
       if: github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop'
       with:
@@ -60,7 +60,7 @@ jobs:
         pipenv run test
     # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
     - name: Version suffix
-    {%- if cookiecutter.packaging_strategy == '440' %}    
+    {%- if cookiecutter.packaging_strategy == "pep440" %}    
       if: github.ref == 'refs/heads/develop'
       run: |
         echo "VERSION_SUFFIX=dev" >> $env:GITHUB_ENV

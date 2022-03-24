@@ -1,3 +1,4 @@
+{% if cookiecutter.dependency_injector == "y" -%}
 import logging
 from typing import Any, Dict
 
@@ -18,3 +19,11 @@ if __name__ == "__main__":
     container.init_resources()
     main()
     container.shutdown_resources()
+{% else -%}
+def main():
+    print("Hello {{cookiecutter.project_name}}!")
+
+
+if __name__ == "__main__":
+    main()
+{% endif %}

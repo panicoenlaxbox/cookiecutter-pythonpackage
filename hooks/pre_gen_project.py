@@ -2,11 +2,11 @@ import sys
 import re
 
 
-if '-' in '{{cookiecutter.project_name}}':
+if "-" in "{{cookiecutter.project_name}}":
     print('ERROR: project_name cannot contain a hyphen.')
     sys.exit(1)
 
-if '_' in '{{cookiecutter.package_name}}':
+if "_" in "{{cookiecutter.package_name}}":
     print('ERROR: package_name cannot contain an underscore.')
     sys.exit(1)
 
