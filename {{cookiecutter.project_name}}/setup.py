@@ -17,7 +17,7 @@ def get_name():
 
 def get_version():
     pattern = r"VERSION\s*=\s*\((?P<version>\d+,\s*\d+,\s*\d+)\)"
-    with open(os.path.join("{{cookiecutter.project_name}}", "version.py")) as f:
+    with open(os.path.join("src", "{{cookiecutter.project_name}}", "version.py")) as f:
         content = f.read()
         match = re.search(pattern, content, re.RegexFlag.IGNORECASE | re.RegexFlag.MULTILINE)
         version = match["version"].replace(",", ".").replace(" ", "")
@@ -72,9 +72,7 @@ def get_install_requires():
 
 long_description = get_long_description()
 install_requires = get_install_requires()
-packages = find_packages(
-    exclude=["tests", "tests.*"]
-)  # https://setuptools.readthedocs.io/en/latest/userguide/package_discovery.html#using-find-or-find-
+packages = find_packages(where="src")
 
 setup(
     name=get_name(),
@@ -85,4 +83,5 @@ setup(
     install_requires=install_requires,
     include_package_data=True,  # https://setuptools.readthedocs.io/en/latest/userguide/datafiles.html
     package_data={"": ["*.json", "py.typed"]},  # https://www.python.org/dev/peps/pep-0561/
+    package_dir={'': 'src'},
 )

@@ -15,7 +15,7 @@ def remove_github_if_not_needed():
 
 def remove_dependency_injector_if_not_needed():    
     if "{{cookiecutter.dependency_injector}}" != "y":
-        project_dir = os.path.join(os.path.realpath(os.path.curdir),"{{cookiecutter.project_name}}")
+        project_dir = os.path.join(os.path.realpath(os.path.curdir),"src", "{{cookiecutter.project_name}}")
         os.remove(os.path.join(project_dir, "config.yml"))
         os.remove(os.path.join(project_dir, "containers.py"))
         os.remove(os.path.join(project_dir, "logging.yml"))

@@ -94,14 +94,14 @@ git commit -m "Initial commit"
 ## Usage
 
 ```bash
-python -m <project_name>.main
+python .\src\<project_name>\main.py
 pytest
 ```
 
 ```bash
 pipenv run test
 pipenv run cov
-pipenv run publish
+pipenv run publish  # It will publish your package in dist\ folder
 ```
 
 ## Deploying
@@ -125,6 +125,10 @@ During the project generation and, if you choose to create the pipelines, it's w
 If you want to change the default location of `.env` file, you can use [PIPENV_DOTENV_LOCATION](https://pipenv.pypa.io/en/latest/advanced/#pipenv.environments.PIPENV_DOTENV_LOCATION)
 
 ## PyCharm
+
+### src\
+
+You should use *Mark Directory as > Sources Root* with `src\` folder.
 
 ### pytest
 
