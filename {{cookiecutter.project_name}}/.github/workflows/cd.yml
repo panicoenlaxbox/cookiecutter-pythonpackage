@@ -103,7 +103,7 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
-          github.git.createRef({
+          github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
             ref: `refs/tags/${process.env.PUBLISHED_VERSION}`,

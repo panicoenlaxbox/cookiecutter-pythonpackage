@@ -83,5 +83,5 @@ setup(
     install_requires=install_requires,
     include_package_data=True,  # https://setuptools.readthedocs.io/en/latest/userguide/datafiles.html
     package_data={"": ["*.json", "py.typed"]},  # https://www.python.org/dev/peps/pep-0561/
-    package_dir={'': 'src'},
+    package_dir={"": "src"},
 )
