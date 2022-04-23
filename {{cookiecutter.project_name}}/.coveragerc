@@ -2,6 +2,9 @@
 # https://pytest-cov.readthedocs.io/en/latest/config.html
 [run]
 source =
-    {{cookiecutter.project_name}}/
+    src/{{cookiecutter.project_name}}/
+omit =
+    src/{{cookiecutter.project_name}}/main.py
+    src/{{cookiecutter.project_name}}/containers.py    
 [html]
 directory = coverage_html_report
