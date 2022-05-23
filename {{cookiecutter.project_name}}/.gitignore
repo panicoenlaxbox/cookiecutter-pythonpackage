@@ -366,6 +366,8 @@ spark-warehouse/
 .env
 tmp/
 temp/
-/coverage_html_report/
+coverage_html_report/
 requirements.txt
 {{cookiecutter.project_name}}.log
+.idea/
+/data/
