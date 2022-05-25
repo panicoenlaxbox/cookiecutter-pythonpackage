@@ -72,14 +72,13 @@ def get_install_requires():
 
 long_description = get_long_description()
 install_requires = get_install_requires()
-packages = find_packages(where="src")
 
 setup(
     name=get_name(),
     version=get_version(),
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=packages,
+    packages=find_packages(where="src"),
     install_requires=install_requires,
     include_package_data=True,  # https://setuptools.readthedocs.io/en/latest/userguide/datafiles.html
     package_data={"": ["*.json", "py.typed"]},  # https://www.python.org/dev/peps/pep-0561/
