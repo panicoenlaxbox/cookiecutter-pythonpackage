@@ -69,8 +69,15 @@ def get_install_requires():
                 if line == "[dev-packages]":
                     break
                 if packages_section and line:
-                    package = line.strip().split(" = ")[0].strip()
-                    version = line.strip().split(" = ")[1].strip(' "')
+                    i = line.find(" = ")
+                    package = line[:i].strip()
+                    version = line[i + len(" = ") :].strip(' "')  # noqa: E203
+                    match = re.search(r'extras\s=\s\["(.+)\"]', version)
+                    if match is not None:
+                        package += f"[{match.groups()[0]}]"
+                    match = re.search(r"version\s=\s\"(.+)\"}", version)
+                    if match is not None:
+                        version = match.groups()[0]
                     packages.append((package, version))
 
         print(f"{len(packages)} packages found {packages}")
@@ -92,6 +99,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(where="src"),
+    # https://setuptools.pypa.io/en/latest/userguide/dependency_management.html#declaring-required-dependency
+    # https://packaging.python.org/en/latest/discussions/install-requires-vs-requirements/#install-requires
     install_requires=install_requires,
     include_package_data=True,  # https://setuptools.readthedocs.io/en/latest/userguide/datafiles.html
     package_data={"": ["*.json", "py.typed"]},  # https://www.python.org/dev/peps/pep-0561/
