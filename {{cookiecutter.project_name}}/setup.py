@@ -1,8 +1,7 @@
-import os
 import re
+from os import environ
 from pathlib import Path
 
-import toml
 from setuptools import find_packages, setup
 
 
@@ -17,13 +16,13 @@ def get_name():
 
 def get_version():
     pattern = r"VERSION\s*=\s*\((?P<version>\d+,\s*\d+,\s*\d+)\)"
-    with open(os.path.join("src", "{{cookiecutter.project_name}}", "version.py")) as f:
+    with open(Path("src").joinpath("other_project").joinpath("version.py")) as f:
         content = f.read()
         match = re.search(pattern, content, re.RegexFlag.IGNORECASE | re.RegexFlag.MULTILINE)
         version = match["version"].replace(",", ".").replace(" ", "")
     {%- if cookiecutter.packaging_strategy == "pep440" %}
-    if os.environ.get("VERSION_SUFFIX") is not None:
-        version += f"{version}.{os.environ['VERSION_SUFFIX']}"
+    if environ.get("VERSION_SUFFIX") is not None:
+        version += f"{version}.{environ['VERSION_SUFFIX']}"
     {%- endif %}
     return version
 
@@ -35,7 +34,7 @@ def get_long_description():
 
 def get_install_requires():
     excluded_packages = []
-    if os.path.isfile("requirements.txt"):
+    if Path("requirements.txt").exists():
         print("Using requirements.txt")
         packages = [
             match[0]
@@ -59,11 +58,25 @@ def get_install_requires():
         return final_packages
     else:
         print("Using Pipfile")
-        data = toml.load("Pipfile")
-        print(f'{len(data["packages"].items())} packages found {data["packages"].items()}')
+        packages = []
+        with (open("Pipfile")) as f:
+            packages_section = False
+            while line := f.readline():
+                line = line.strip()
+                if line.startswith("[packages]"):
+                    packages_section = True
+                    continue
+                if line == "[dev-packages]":
+                    break
+                if packages_section and line:
+                    package = line.strip().split(" = ")[0].strip()
+                    version = line.strip().split(" = ")[1].strip(' "')
+                    packages.append((package, version))
+
+        print(f"{len(packages)} packages found {packages}")
         final_packages = [
             package + (version if version != "*" else "")
-            for package, version in data["packages"].items()
+            for package, version in packages
             if package not in excluded_packages
         ]
         print(f"{len(final_packages)} final packages {final_packages}")
