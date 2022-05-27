@@ -8,8 +8,8 @@ from setuptools import find_packages, setup
 def get_name():
     name = "{{cookiecutter.project_name}}"
     {%- if cookiecutter.packaging_strategy == "branch" %}
-    if os.environ.get("PACKAGE_SUFFIX") is not None:
-        name = f"{name}-{os.environ['PACKAGE_SUFFIX']}"
+    if environ.get("PACKAGE_SUFFIX") is not None:
+        name = f"{name}-{environ['PACKAGE_SUFFIX']}"
     {%- endif %}
     return name
 
