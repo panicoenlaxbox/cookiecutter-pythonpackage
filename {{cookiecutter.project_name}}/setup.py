@@ -72,12 +72,12 @@ def get_install_requires():
                     i = line.find(" = ")
                     package = line[:i].strip()
                     version = line[i + len(" = ") :].strip(' "')  # noqa: E203
-                    match = re.search(r'extras\s=\s\["(.+)\"]', version)
+                    match = re.search(r'extras\s*=\s*\["(?P<extras>.+)\"]', version)
                     if match is not None:
-                        package += f"[{match.groups()[0]}]"
-                    match = re.search(r"version\s=\s\"(.+)\"}", version)
+                        package += "[" + match.groupdict()["extras"] + "]"
+                    match = re.search(r"version\s*=\s*\"(?P<version>.+?)\"", version)
                     if match is not None:
-                        version = match.groups()[0]
+                        version = match.groupdict()["version"]
                     packages.append((package, version))
 
         print(f"{len(packages)} packages found {packages}")
