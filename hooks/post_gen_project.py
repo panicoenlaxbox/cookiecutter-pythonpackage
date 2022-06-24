@@ -19,7 +19,13 @@ def remove_dependency_injector_if_not_needed():
         os.remove(os.path.join(project_dir, "config.yml"))
         os.remove(os.path.join(project_dir, "containers.py"))
         os.remove(os.path.join(project_dir, "logging.yml"))
+        
+def remove_conftest_py_if_not_needed():    
+    if not "{{cookiecutter.pyspark_version}}":
+        test_dir = os.path.join(os.path.realpath(os.path.curdir),"tests")
+        os.remove(os.path.join(test_dir, "conftest.py"))
 
 replace_userprofile_in_env_file()
 remove_github_if_not_needed()
 remove_dependency_injector_if_not_needed()
+remove_conftest_py_if_not_needed()
