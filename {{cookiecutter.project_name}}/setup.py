@@ -16,7 +16,7 @@ def get_name():
 
 def get_version():
     pattern = r"VERSION\s*=\s*\((?P<version>\d+,\s*\d+,\s*\d+)\)"
-    with open(Path("src").joinpath("other_project").joinpath("version.py")) as f:
+    with open(Path("src").joinpath("{{cookiecutter.project_name}}").joinpath("version.py")) as f:
         content = f.read()
         match = re.search(pattern, content, re.RegexFlag.IGNORECASE | re.RegexFlag.MULTILINE)
         version = match["version"].replace(",", ".").replace(" ", "")
