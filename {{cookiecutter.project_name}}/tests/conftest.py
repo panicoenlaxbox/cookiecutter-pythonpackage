@@ -1,9 +1,9 @@
-{% if cookiecutter.pyspark_version -%}
 from distutils.dir_util import copy_tree
 from pathlib import Path
 
 import pytest
 from _pytest.fixtures import FixtureRequest
+{%- if cookiecutter.pyspark_version %}
 from pyspark.sql import SparkSession
 
 
@@ -25,6 +25,7 @@ def spark(request: FixtureRequest) -> SparkSession:
 
     request.addfinalizer(lambda: spark_.sparkContext.stop())
     return spark_
+{%- endif %}
 
 
 @pytest.fixture()
@@ -55,4 +56,3 @@ def test_method_dir(request: FixtureRequest, tmp_path: Path) -> Path:
     path = Path(request.path.parent) / request.path.stem / request.node.name
     copy_tree(str(path), str(tmp_path))
     return tmp_path
-{% endif %}
